@@ -1,1 +1,1 @@
-EasyMovie is a Movie Website that is created by Amr Mahmoud.
+# **EasyMovie** is a Movie Website that is created by **Amr Mahmoud**.
