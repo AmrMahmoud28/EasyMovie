@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 -0.141 139.101 19.845" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="a" x1="72.195%" x2="17.503%" y1="0%" y2="100%">
+      <stop offset="0" stop-color="#E50914"/>
+      <stop offset="1" stop-color="#E50914"/>
+    </linearGradient>
+    <style bx:fonts="Adamina">@import url(https://fonts.googleapis.com/css2?family=Adamina%3Aital%2Cwght%400%2C400&amp;display=swap);</style>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g fill="url(#a)">
+      <path d="M10.802 0 0 19.704h5.986L16.789 0z"/>
+      <path opacity=".5" d="M18.171 0 7.368 19.704h5.986L24.157 0z"/>
+      <path opacity=".15" d="M25.539 0 14.737 19.704h5.986L31.525 0z"/>
+    </g>
+  </g>
+  <text style="fill: rgb(255, 255, 255); font-family: Adamina; font-size: 13px; font-weight: 700; white-space: pre;" transform="matrix(1.456395, 0, 0, 1.116039, -14.422075, -23.952646)" x="31.6" y="35.318" bx:origin="0.461681 -0.41831">Easy</text>
+  <text style="fill: #E50914; font-family: Adamina; font-size: 13px; font-weight: 700; white-space: pre;" transform="matrix(1.456395, 0, 0, 1.116039, -14.422075, -23.952646)" x="58.8" y="35.318" bx:origin="0.461681 -0.41831">Movie</text>
+</svg>

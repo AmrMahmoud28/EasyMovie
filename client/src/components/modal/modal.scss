@@ -1,0 +1,49 @@
+@use "../../scss/" as *;
+
+.modal{
+    @include flex(center, center);
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: rgba($color: #000, $alpha: 0.4);
+    user-select: none;
+    @include overlay();
+
+    &__content{
+        border-radius: $border-radius;
+        padding: 2.5rem;
+        background-color: $body-bg;
+        width: 50%;
+        opacity: 0;
+        transform: translateY(-250px);
+        transition: transform .2s ease, opacity .2s ease;
+        position: relative;
+
+        @include tablet{
+            width: 80%;
+        }
+
+        .closeModal{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0px 4px;
+            background-color: transparent;
+            color: #FFF;
+            border: none;
+        }
+
+        .closeModal:hover{
+            color: $mainColor;
+        }
+    }
+
+    .modalActive{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

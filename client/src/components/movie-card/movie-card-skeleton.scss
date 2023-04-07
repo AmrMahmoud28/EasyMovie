@@ -1,0 +1,30 @@
+@use "../../scss/" as *;
+
+.movie-cardSk{
+    position: relative;
+    padding-top: 160%;
+    border-radius: $border-radius;
+    margin-bottom: 1rem;
+    background-color: #333;
+    height: 10em;
+    animation: skeleton 1s ease infinite alternate;
+
+    &::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #000;
+        opacity: 0;
+        transition: opacity .3s ease;
+        border-radius: $border-radius;
+    }
+}
+
+@keyframes skeleton{
+    to{
+        opacity: 0.5;
+    }
+}

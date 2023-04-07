@@ -1,0 +1,47 @@
+@use "../../scss/" as *;
+
+.watch{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    .back{
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        position: absolute;
+        cursor: pointer;
+        z-index: 2;
+        top: 20px;
+        right: 30px;
+        color: $white;
+        font-size: 1.5em;
+        font-weight: 700;
+
+        .resolutions{
+            gap: 23px;
+            display: flex;
+            background-color: #333;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: $border-radius;
+        }
+
+        .resolution1:hover, .resolution2:hover, .resolution3:hover{
+            color: $mainColor;
+            transition: all 0.4s ease;
+        }
+
+        .active{
+            color: $mainColor;
+        }
+    }
+
+    .movie{
+        width: 100%;
+        height: 100%;
+        // object-fit: cover;
+    }
+}
