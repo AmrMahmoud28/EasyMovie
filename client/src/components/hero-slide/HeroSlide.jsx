@@ -30,9 +30,11 @@ const HeroSlide = ({movie}) => {
       >
         <div className="hero-slide__item__content container">
           <div className="hero-slide__item__content__info">
-            <h2 className="title">
-              {movie.movieName}
-            </h2>
+            <Link to={`/detail/${movie?._id}`}>
+              <h2 className="title">
+                {movie.movieName}
+              </h2>
+            </Link>
             <div className="overview">
               {movie.movieOverview}
             </div>
