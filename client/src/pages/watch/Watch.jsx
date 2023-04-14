@@ -36,8 +36,8 @@ const Watch = () => {
   // }, [])
 
   useEffect(() => {
-    // fetch("https://easymovie-cors.herokuapp.com/" + moviePageUrl)
-    fetch(moviePageUrl)
+    fetch("https://easymovie-cors.herokuapp.com/" + moviePageUrl)
+    // fetch(moviePageUrl)
       .then((response) => response.text())
       .then((text) => {
         const url = [];
