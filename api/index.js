@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URL, {
     .catch(error => console.log(error));
 
 app.use(express.json());
-app.use(cors({origin: 'https://easymovie.netlify.app'}));
+app.use(cors({origin: ['https://easymovie.netlify.app', 'http://localhost:3000'], default: 'https://easymovie.netlify.app'}));
 
 app.use("/api/auth", authRoute);
 app.use("/api/movie", movieRoute);
