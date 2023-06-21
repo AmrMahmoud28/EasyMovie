@@ -40,7 +40,6 @@ const Detail = () => {
           `https://easymovie-api.herokuapp.com/api/movie/find/${movieId}`
         );
         setMovie(res.data);
-        setIsLoading(false);
         return res.data;
       } catch (error) {
         console.log(error);
@@ -48,9 +47,7 @@ const Detail = () => {
     };
 
     const getSeries = (movie) => {
-      console.log(5);
       if (movie?.movieGenre?.split("-")[0] === "Series") {
-        console.log(movie.movieVideo);
         fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
           .then((response) => response.text())
           .then((text) => {
@@ -73,11 +70,11 @@ const Detail = () => {
             );
           });
       }
+      setIsLoading(false);
     }
 
     getUsersMovie();
     getMovie().then((movie) => getSeries(movie));
-    console.log(movie.movieVideo);
     
   }, [userId, movieId]);
 

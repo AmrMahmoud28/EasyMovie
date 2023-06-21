@@ -34,14 +34,14 @@ const SeriesCatalog = () => {
           <div className="section__header mb-2">
             <h2>Comedy Series</h2>
           </div>
-          <MovieList category="Comedy"/>
+          <MovieList category="Series-Comedy"/>
         </div>
 
         <div className="section mb-3">
           <div className="section__header mb-2">
             <h2>Horror Series</h2>
           </div>
-          <MovieList category="Animation"/>
+          <MovieList category="Series-Horror"/>
         </div>
         <div style={{paddingBottom: '1.5rem'}}></div>
       </div>
