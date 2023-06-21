@@ -49,28 +49,61 @@ const Detail = () => {
     getUsersMovie();
     getMovie();
 
-    if (movie.movieGenre?.split("-")[0] === "Series") {
-      fetch("https://easymovie-cors.herokuapp.com/" + movie?.movieVideo)
-        .then((response) => response.text())
-        .then((text) => {
-          setSeasons(text
+    // if (movie.movieGenre?.split("-")[0] === "Series") {
+    fetch(
+      "https://w10.mycimaa1.homes/watch/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84-gotham-knights-%d9%85%d9%88%d8%b3%d9%85-1-%d8%ad%d9%84%d9%82%d8%a9-12/"
+    )
+      .then((response) => response.text())
+      .then((text) => {
+        setSeasons(
+          text
             ?.split('<a class="selected" href="')[1]
             ?.split("</a></div>")[0]
-            ?.split('</a><a class="hoverable activable" href="'));
-          
-          setEpisodes(text
-          ?.split('<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="')[1]
-          ?.split("</a></div>")[0]
-          ?.split('</a><a class="hoverable activable\" href="'));
-        });
-    }
-  }, [userId, movieId, movie]);
+            ?.split('</a><a class="hoverable activable" href="')
+        );
+
+        setEpisodes(
+          text
+            ?.split(seasons.length == 0? '<a class="hoverable activable selected" href="' :
+              '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
+            )[1]
+            ?.split("</a></div>")[0]
+            ?.split('</a><a class="hoverable activable" href="')
+        );
+      });
+    // }
+  }, [userId, movieId]);
 
   const [modal, setModal] = useState(false);
+  const [seasonActive, setSeasonActive] = useState(0);
 
   const toggleModal = () => {
     setModal(!modal);
   };
+
+  const handelSeason = (index, link) =>{
+    setSeasonActive(index)
+
+    try{
+      fetch(
+        "https://easymovie-cors.herokuapp.com/" + link
+      )
+        .then((response) => response.text())
+        .then((text) => {
+          setEpisodes(
+            text
+              ?.split(
+                '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
+              )[1]
+              ?.split("</a></div>")[0]
+              ?.split('</a><a class="hoverable activable" href="')
+          );
+        });
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
 
   const addList = async () => {
     try {
@@ -170,6 +203,56 @@ const Detail = () => {
           </div>
         </div>
       )}
+
+      <div style={{ paddingBottom: "3rem" }}></div>
+
+      <div className="container">
+        <div className="section mb-3">
+          <div className="section__header mb-2">
+            <h2>Episodes</h2>
+          </div>
+          <div className="eps-seasons">
+            <div className="episodes">
+              <div className="btns">
+                {episodes?.map((item, key) => {
+                  return (
+                    <Link
+                      key={key}
+                      to={{
+                        pathname: `/watch/${("" + movie.movieName)
+                          .toLowerCase()
+                          .replaceAll(" ", "-")}`,
+                        moviePageUrl: item.split('">')[0],
+                        movieBg: movie.movieBg,
+                      }}
+                    >
+                      <OutlineButton className="btn">
+                        {`Episode ${episodes.length - key}`}
+                      </OutlineButton>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="seasons">
+              <div className="btns">
+                {seasons?.map((item, key) => {
+                  return (
+                    <OutlineButton 
+                    key={key} 
+                    className={seasonActive == key? 'active' : null}
+                    onClick={() => handelSeason(key, item.split('">')[0])}
+                    >
+                      {`Season ${key + 1}`}
+                    </OutlineButton>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div style={{ paddingBottom: "6rem" }}></div>
 

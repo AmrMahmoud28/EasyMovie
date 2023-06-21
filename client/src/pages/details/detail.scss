@@ -127,3 +127,36 @@
         }
     }
 }
+
+.eps-seasons{
+    @include flex(flex-start, flex-start);
+    .episodes{
+        background-color: #1f1e1e;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+        padding: 2rem;
+
+        .btn{
+            margin-bottom: 2rem;
+            margin-right: 1rem;
+            width: 15rem;
+        }
+    }
+
+    .seasons{
+        margin-left: 4rem;
+        
+        .btns > *{
+            margin-top: 1.5rem;
+            margin-right: 0.5rem;
+            width: 15rem;
+        }
+
+        .active{
+            box-shadow: unset;
+            color: $mainColor;
+            background-color: $white;
+            transition: all .4s ease
+        }
+    }
+}
