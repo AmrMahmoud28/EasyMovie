@@ -12,4 +12,16 @@
             width: 40%;
         }
     }
+
+    .series{
+        width: 17%;
+
+        @include tablet{
+            width: 35%;
+        }
+
+        @include mobile{
+            width: 45%;
+        }
+    }
 }

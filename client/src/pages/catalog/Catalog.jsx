@@ -25,7 +25,6 @@ const Catalog = () => {
 
 function getCategory(category) {
   let result = category.charAt(0).toUpperCase() + category.slice(1);
-  console.log(result);
 
   if(result.split("-")[0] === "Series"){
     return (category.split("-")[1].charAt(0).toUpperCase() + category.slice(8) + " Series");

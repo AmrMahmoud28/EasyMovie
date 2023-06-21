@@ -46,7 +46,7 @@ const MovieList = ({ category , id, isMovie = true}) => {
           return (
             ((category === item.movieGenre && numOfMovies < 10 && id !== item._id) &&(
               isMovie? numOfMovies++ : null,
-              <SwiperSlide key={key}>
+              <SwiperSlide key={key} className={isMovie? null : `series`}>
               <MovieCard
                 movie={item}
                 isAdded={(usersMovies.some(e => e.movieId === item._id))}
