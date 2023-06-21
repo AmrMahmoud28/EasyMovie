@@ -50,10 +50,7 @@ const Detail = () => {
     getMovie();
 
     if (movie.movieGenre?.split("-")[0] === "Series") {
-      fetch(
-        "https://easymovie-cors.herokuapp.com/" +
-          "https://w10.mycimaa1.homes/series/gotham-knights//"
-      )
+      fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
         .then((response) => response.text())
         .then((text) => {
           const season = text
@@ -179,11 +176,11 @@ const Detail = () => {
                   pathname: `/watch/${("" + movie.movieName)
                     .toLowerCase()
                     .replaceAll(" ", "-")}`,
-                  moviePageUrl: movie.movieVideo,
+                  moviePageUrl: movie.movieGenre?.split("-")[0] === "Series"? episodes[0].split('">')[0] : movie.movieVideo,
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button>Watch now</Button>
+                <Button>{movie.movieGenre?.split("-")[0] === "Series"? `Episode 1` : `Watch now`}</Button>
               </Link>
 
               <OutlineButton onClick={toggleModal}>Watch trailer</OutlineButton>

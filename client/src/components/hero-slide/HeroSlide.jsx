@@ -4,7 +4,7 @@ import Button, { OutlineButton } from "../button/Button";
 import Modal from "../modal/Modal";
 import { Link } from "react-router-dom";
 
-const HeroSlide = ({movie}) => {
+const HeroSlide = ({ movie }) => {
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -15,9 +15,9 @@ const HeroSlide = ({movie}) => {
 
   const [modal, setModal] = useState(false);
 
-  const toggleModal = () =>{
+  const toggleModal = () => {
     setModal(!modal);
-  }
+  };
 
   return (
     <div className="hero-slide">
@@ -31,26 +31,37 @@ const HeroSlide = ({movie}) => {
         <div className="hero-slide__item__content container">
           <div className="hero-slide__item__content__info">
             <Link to={`/detail/${movie?._id}`}>
-              <h2 className="title">
-                {movie.movieName}
-              </h2>
+              <h2 className="title">{movie.movieName}</h2>
             </Link>
-            <div className="overview">
-              {movie.movieOverview}
-            </div>
+            <div className="overview">{movie.movieOverview}</div>
             <div className="btns">
-              <Link to={{pathname: `/watch/${(("" + movie.movieName).toLowerCase()).replaceAll(' ', '-')}`, moviePageUrl: movie.movieVideo, movieBg: movie.movieBg}}><Button>Watch now</Button></Link>
+              <Link
+                to={{
+                  pathname: `/watch/${("" + movie.movieName)
+                    .toLowerCase()
+                    .replaceAll(" ", "-")}`,
+                  moviePageUrl: movie.movieVideo,
+                  movieBg: movie.movieBg,
+                }}
+              >
+                <Button>
+                  {movie.movieGenre?.split("-")[0] === "Series"
+                    ? `Episode 1`
+                    : `Watch now`}
+                </Button>
+              </Link>
 
               <OutlineButton onClick={toggleModal}>Watch trailer</OutlineButton>
-              <Modal modal={modal} toggleModal={toggleModal} trailerSrc={movie.movieTrailer}/>
+              <Modal
+                modal={modal}
+                toggleModal={toggleModal}
+                trailerSrc={movie.movieTrailer}
+              />
             </div>
           </div>
 
           <div className="hero-slide__item__content__poster">
-            <img
-              src={movie.moviePoster}
-              alt=""
-            />
+            <img src={movie.moviePoster} alt="" />
           </div>
         </div>
       </div>

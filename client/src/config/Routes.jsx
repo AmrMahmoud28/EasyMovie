@@ -3,6 +3,7 @@ import {Route , Switch, Redirect} from 'react-router-dom';
 
 import Home from '../pages/home/Home';
 import Catalog from '../pages/catalog/Catalog'
+import SeriesCatalog from '../pages/catalog/SeriesCatalog';
 import Detail from '../pages/details/Detail'
 import Watch from '../pages/watch/Watch';
 import ScrollToTop from './ScrollToTop';
@@ -31,6 +32,10 @@ const Routes = () => {
 
             <Route path='/movie/:category'>
                 {user? <Catalog/> : <Redirect to="/login"/>}
+            </Route>
+
+            <Route path='/series/:category'>
+                {user? <SeriesCatalog/> : <Redirect to="/login"/>}
             </Route>
 
             <Route path='/register'>
