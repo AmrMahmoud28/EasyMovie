@@ -25,8 +25,12 @@ const Catalog = () => {
 
 function getCategory(category) {
   let result = category.charAt(0).toUpperCase() + category.slice(1);
+  console.log(result);
 
-  if (category !== "all"){
+  if(result.split("-")[0] === "Series"){
+    return (category.split("-")[1].charAt(0).toUpperCase() + category.slice(8) + " Series");
+  }
+  else if (category !== "all"){
     return (result + " Movies");
   }
   else{

@@ -20,7 +20,14 @@ const SeriesCatalog = () => {
           <div className="section__header mb-2">
             <h2>Action Series</h2>
           </div>
-          <MovieList category="Action"/>
+          <MovieList category="Series-Action" isMovie={false}/>
+        </div>
+
+        <div className="section mb-3">
+          <div className="section__header mb-2">
+            <h2>Arabic Series</h2>
+          </div>
+          <MovieList category="Series-Arabic"/>
         </div>
 
         <div className="section mb-3">
@@ -28,13 +35,6 @@ const SeriesCatalog = () => {
             <h2>Comedy Series</h2>
           </div>
           <MovieList category="Comedy"/>
-        </div>
-
-        <div className="section mb-3">
-          <div className="section__header mb-2">
-            <h2>Arabic Series</h2>
-          </div>
-          <MovieList category="Horror"/>
         </div>
 
         <div className="section mb-3">

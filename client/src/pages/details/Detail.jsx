@@ -41,37 +41,44 @@ const Detail = () => {
         );
         setMovie(res.data);
         setIsLoading(false);
+        return res.data;
       } catch (error) {
         console.log(error);
       }
     };
 
-    getUsersMovie();
-    getMovie();
-
-    if (movie.movieGenre?.split("-")[0] === "Series") {
-      fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
-        .then((response) => response.text())
-        .then((text) => {
-          const season = text
-            ?.split('<a class="selected" href="')[1]
-            ?.split("</a></div>")[0]
-            ?.split('</a><a class="hoverable activable" href="');
-
-          setSeasons(season);
-
-          setEpisodes(
-            text
-              ?.split(
-                season == undefined
-                  ? '<div class="Episodes--Seasons--Episodes Full--Width"><a class="hoverable activable" href="'
-                  : '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
-              )[1]
+    const getSeries = (movie) => {
+      console.log(5);
+      if (movie?.movieGenre?.split("-")[0] === "Series") {
+        console.log(movie.movieVideo);
+        fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
+          .then((response) => response.text())
+          .then((text) => {
+            const season = text
+              ?.split('<a class="selected" href="')[1]
               ?.split("</a></div>")[0]
-              ?.split('</a><a class="hoverable activable" href="')
-          );
-        });
+              ?.split('</a><a class="hoverable activable" href="');
+  
+            setSeasons(season);
+  
+            setEpisodes(
+              text
+                ?.split(
+                  !season
+                    ? '<div class="Episodes--Seasons--Episodes Full--Width"><a class="hoverable activable" href="'
+                    : '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
+                )[1]
+                ?.split("</a></div>")[0]
+                ?.split('</a><a class="hoverable activable" href="')
+            );
+          });
+      }
     }
+
+    getUsersMovie();
+    getMovie().then((movie) => getSeries(movie));
+    console.log(movie.movieVideo);
+    
   }, [userId, movieId]);
 
   const [modal, setModal] = useState(false);
@@ -176,7 +183,7 @@ const Detail = () => {
                   pathname: `/watch/${("" + movie.movieName)
                     .toLowerCase()
                     .replaceAll(" ", "-")}`,
-                  moviePageUrl: movie.movieGenre?.split("-")[0] === "Series"? episodes[0].split('">')[0] : movie.movieVideo,
+                  moviePageUrl: movie.movieGenre?.split("-")[0] === "Series"? episodes[0]?.split('">')[0] : movie.movieVideo,
                   movieBg: movie.movieBg,
                 }}
               >

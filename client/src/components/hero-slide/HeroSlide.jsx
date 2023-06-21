@@ -36,19 +36,19 @@ const HeroSlide = ({ movie }) => {
             <div className="overview">{movie.movieOverview}</div>
             <div className="btns">
               <Link
-                to={{
-                  pathname: `/watch/${("" + movie.movieName)
-                    .toLowerCase()
-                    .replaceAll(" ", "-")}`,
-                  moviePageUrl: movie.movieVideo,
-                  movieBg: movie.movieBg,
-                }}
+                to={
+                  movie.movieGenre?.split("-")[0] === "Series"
+                    ? `/detail/${movie?._id}`
+                    : {
+                        pathname: `/watch/${("" + movie.movieName)
+                          .toLowerCase()
+                          .replaceAll(" ", "-")}`,
+                        moviePageUrl: movie.movieVideo,
+                        movieBg: movie.movieBg,
+                      }
+                }
               >
-                <Button>
-                  {movie.movieGenre?.split("-")[0] === "Series"
-                    ? `Episode 1`
-                    : `Watch now`}
-                </Button>
+                <Button>Watch now</Button>
               </Link>
 
               <OutlineButton onClick={toggleModal}>Watch trailer</OutlineButton>

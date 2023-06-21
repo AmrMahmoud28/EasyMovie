@@ -60,7 +60,7 @@ const MovieGrid = (props) => {
           }
         }).map((item, key) => {
           return (
-            (((props.category === item.movieGenre.toLowerCase()) || props.category === "all") && (
+            (((props.category === item.movieGenre.toLowerCase()) || props.category === "all" && item.movieGenre.split("-")[0] !== "Series") && (
               <MovieCard key={key}
               movie={item}
               isAdded={(usersMovies.some(e => e.movieId === item._id))}

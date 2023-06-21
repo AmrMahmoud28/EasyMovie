@@ -6,7 +6,7 @@ import "./movie-list.scss";
 
 import axios from "axios";
 
-const MovieList = ({ category , id}) => {
+const MovieList = ({ category , id, isMovie = true}) => {
   const userId = (JSON.parse(localStorage.getItem("user")))["_id"];
 
   const [usersMovies, setUsersMovies] = useState([]);
@@ -45,7 +45,7 @@ const MovieList = ({ category , id}) => {
         {isLoading ? Array(10).fill(<SwiperSlide><MovieCardSkeleton/></SwiperSlide>) : movies.map((item, key) => {
           return (
             ((category === item.movieGenre && numOfMovies < 10 && id !== item._id) &&(
-              numOfMovies++,
+              isMovie? numOfMovies++ : null,
               <SwiperSlide key={key}>
               <MovieCard
                 movie={item}
