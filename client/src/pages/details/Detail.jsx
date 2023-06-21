@@ -55,9 +55,9 @@ const Detail = () => {
               ?.split('<a class="selected" href="')[1]
               ?.split("</a></div>")[0]
               ?.split('</a><a class="hoverable activable" href="');
-  
+
             setSeasons(season);
-  
+
             setEpisodes(
               text
                 ?.split(
@@ -71,11 +71,10 @@ const Detail = () => {
           });
       }
       setIsLoading(false);
-    }
+    };
 
     getUsersMovie();
     getMovie().then((movie) => getSeries(movie));
-    
   }, [userId, movieId]);
 
   const [modal, setModal] = useState(false);
@@ -164,7 +163,13 @@ const Detail = () => {
 
             <div className="genres">
               <Link to={`/movie/${("" + movie.movieGenre).toLowerCase()}`}>
-                <span className="genres__item genre">{movie.movieGenre}</span>
+                <span className="genres__item genre">
+                  {movie.movieGenre?.split("-")[0] === "Series"
+                    ? movie.movieGenre.split("-")[1].charAt(0).toUpperCase() +
+                      movie.movieGenre.slice(8) +
+                      " Series"
+                    : movie.movieGenre}
+                </span>
               </Link>
               <span className="genres__item">{movie.movieLimit}</span>
               <span className="genres__item">{`${movie.movieRating} / 10`}</span>
@@ -180,11 +185,18 @@ const Detail = () => {
                   pathname: `/watch/${("" + movie.movieName)
                     .toLowerCase()
                     .replaceAll(" ", "-")}`,
-                  moviePageUrl: movie.movieGenre?.split("-")[0] === "Series"? episodes[0]?.split('">')[0] : movie.movieVideo,
+                  moviePageUrl:
+                    movie.movieGenre?.split("-")[0] === "Series"
+                      ? episodes[0]?.split('">')[0]
+                      : movie.movieVideo,
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button>{movie.movieGenre?.split("-")[0] === "Series"? `Episode 1` : `Watch now`}</Button>
+                <Button>
+                  {movie.movieGenre?.split("-")[0] === "Series"
+                    ? `Episode 1`
+                    : `Watch now`}
+                </Button>
               </Link>
 
               <OutlineButton onClick={toggleModal}>Watch trailer</OutlineButton>
