@@ -51,21 +51,24 @@ const Detail = () => {
 
     // if (movie.movieGenre?.split("-")[0] === "Series") {
     fetch(
-      "https://w10.mycimaa1.homes/watch/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84-gotham-knights-%d9%85%d9%88%d8%b3%d9%85-1-%d8%ad%d9%84%d9%82%d8%a9-12/"
+      "https://easymovie-cors.herokuapp.com/" +
+        "https://w10.mycimaa1.homes/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84-vis-a-vis/"
     )
       .then((response) => response.text())
       .then((text) => {
-        setSeasons(
-          text
-            ?.split('<a class="selected" href="')[1]
-            ?.split("</a></div>")[0]
-            ?.split('</a><a class="hoverable activable" href="')
-        );
+        const season = text
+          ?.split('<a class="selected" href="')[1]
+          ?.split("</a></div>")[0]
+          ?.split('</a><a class="hoverable activable" href="');
+
+        setSeasons(season);
 
         setEpisodes(
           text
-            ?.split(seasons.length == 0? '<a class="hoverable activable selected" href="' :
-              '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
+            ?.split(
+              season == undefined
+                ? '<div class="Episodes--Seasons--Episodes Full--Width"><a class="hoverable activable" href="'
+                : '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
             )[1]
             ?.split("</a></div>")[0]
             ?.split('</a><a class="hoverable activable" href="')
@@ -81,13 +84,11 @@ const Detail = () => {
     setModal(!modal);
   };
 
-  const handelSeason = (index, link) =>{
-    setSeasonActive(index)
+  const handelSeason = (index, link) => {
+    setSeasonActive(index);
 
-    try{
-      fetch(
-        "https://easymovie-cors.herokuapp.com/" + link
-      )
+    try {
+      fetch("https://easymovie-cors.herokuapp.com/" + link)
         .then((response) => response.text())
         .then((text) => {
           setEpisodes(
@@ -99,11 +100,10 @@ const Detail = () => {
               ?.split('</a><a class="hoverable activable" href="')
           );
         });
-    }
-    catch (error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const addList = async () => {
     try {
@@ -239,10 +239,10 @@ const Detail = () => {
               <div className="btns">
                 {seasons?.map((item, key) => {
                   return (
-                    <OutlineButton 
-                    key={key} 
-                    className={seasonActive == key? 'active' : null}
-                    onClick={() => handelSeason(key, item.split('">')[0])}
+                    <OutlineButton
+                      key={key}
+                      className={seasonActive == key ? "active" : null}
+                      onClick={() => handelSeason(key, item.split('">')[0])}
                     >
                       {`Season ${key + 1}`}
                     </OutlineButton>
