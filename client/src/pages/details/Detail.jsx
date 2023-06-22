@@ -194,7 +194,7 @@ const Detail = () => {
               >
                 <Button>
                   {movie.movieGenre?.split("-")[0] === "Series"
-                    ? `Episode 1`
+                    ? `${episodes?.length === 0? `Episode --` : `Episode ${episodes?.length}`}`
                     : `Watch now`}
                 </Button>
               </Link>
@@ -256,7 +256,7 @@ const Detail = () => {
                       return (
                         <OutlineButton
                           key={key}
-                          className={seasonActive == key ? "active" : null}
+                          className={seasonActive === key ? "active" : null}
                           onClick={() => handelSeason(key, item.split('">')[0])}
                         >
                           {`Season ${key + 1}`}
