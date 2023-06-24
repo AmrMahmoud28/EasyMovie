@@ -112,6 +112,10 @@
         img{
             transform: scale(1);
         }
+
+        img{
+            transition-delay: .6s, .6s;
+        }
     }
 
     &.active > &__content > &__content__info{
@@ -121,15 +125,15 @@
         }
 
         .title{
-            transition-delay: .3s, .3s;
+            transition-delay: .9s, .9s;
         }
 
         .overview{
-            transition-delay: .6s, .6s;
+            transition-delay: 1.2s, 1.2s;
         }
 
         .btns{
-            transition-delay: .9s, .9s;
+            transition-delay: 1.5s, 1.5s;
         }
     }
 }
