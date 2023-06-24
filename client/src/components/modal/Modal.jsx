@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 
-const Modal = ({toggleModal, modal, trailerSrc}) => {
+const Modal = ({toggleModal, modal, trailerSrc, index = 0}) => {
   const modalRef = useRef(null);
 
   useEffect(() =>{
@@ -18,7 +18,7 @@ const Modal = ({toggleModal, modal, trailerSrc}) => {
       {modal && (
         <div className="modal">
           <div ref={modalRef} className="modal__content">
-            <iframe src={`${trailerSrc}?autoplay=1`} width="100%" height="500px" title="trailer" allow="fullscreen;" ></iframe>
+            <iframe src={`${trailerSrc?.constructor === Array? trailerSrc[index]?.movieTrailer : trailerSrc}?autoplay=1`} width="100%" height="500px" title="trailer" allow="fullscreen;" ></iframe>
             <button className='closeModal' onClick={toggleModal}><CloseIcon sx={{ fontSize: 27 }}/></button>
           </div>
         </div>

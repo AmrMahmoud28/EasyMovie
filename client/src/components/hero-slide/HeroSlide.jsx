@@ -1,70 +1,96 @@
 import React, { useEffect, useRef, useState } from "react";
+import SwiperCore, { Autoplay } from "swiper";
+import { SwiperSlide, Swiper } from "swiper/react";
 import "./hero-slide.scss";
 import Button, { OutlineButton } from "../button/Button";
 import Modal from "../modal/Modal";
 import { Link } from "react-router-dom";
 
 const HeroSlide = ({ movie }) => {
+  SwiperCore.use([Autoplay]);
   const heroRef = useRef(null);
+
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      heroRef.current?.classList?.add("active");
+      // heroRef.current?.classList?.add("active");
+      setIsActive(true);
     }, 700);
   }, []);
 
   const [modal, setModal] = useState(false);
+  const [trailerIndex, setTrailerIndex] = useState(0);
 
-  const toggleModal = () => {
+  const toggleModal = (index = 0) => {
     setModal(!modal);
+    setTrailerIndex(index);
   };
 
   return (
     <div className="hero-slide">
-      <div
-        ref={heroRef}
-        className="hero-slide__item"
-        style={{
-          backgroundImage: `url(${movie.movieBg})`,
-        }}
+      <Swiper
+        modules={[Autoplay]}
+        grabCursor={true}
+        spaceBetween={0}
+        slidesPerView={1}
+        autoplay={{ delay: 4000 }}
+        onSlideChange={() => console.log('slide change')}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
-        <div className="hero-slide__item__content container">
-          <div className="hero-slide__item__content__info">
-            <Link to={`/detail/${movie?._id}`}>
-              <h2 className="title">{movie.movieName}</h2>
-            </Link>
-            <div className="overview">{movie.movieOverview}</div>
-            <div className="btns">
-              <Link
-                to={
-                  movie.movieGenre?.split("-")[0] === "Series"
-                    ? `/detail/${movie?._id}`
-                    : {
-                        pathname: `/watch/${("" + movie.movieName)
-                          .toLowerCase()
-                          .replaceAll(" ", "-")}`,
-                        moviePageUrl: movie.movieVideo,
-                        movieBg: movie.movieBg,
+        {movie.map((item, key) => (
+          <SwiperSlide key={key}>
+            <div
+              // ref={heroRef}
+              className={`hero-slide__item ${isActive && "active"}`}
+              style={{
+                backgroundImage: `url(${item.movieBg})`,
+              }}
+            >
+              <div className="hero-slide__item__content container">
+                <div className="hero-slide__item__content__info">
+                  <Link to={`/detail/${item?._id}`}>
+                    <h2 className="title">{item.movieName}</h2>
+                  </Link>
+                  <div className="overview">{item.movieOverview}</div>
+                  <div className="btns">
+                    <Link
+                      to={
+                        item.movieGenre?.split("-")[0] === "Series"
+                          ? `/detail/${item?._id}`
+                          : {
+                              pathname: `/watch/${("" + item.movieName)
+                                .toLowerCase()
+                                .replaceAll(" ", "-")}`,
+                              moviePageUrl: item.movieVideo,
+                              movieBg: item.movieBg,
+                            }
                       }
-                }
-              >
-                <Button>Watch now</Button>
-              </Link>
+                    >
+                      <Button>Watch now</Button>
+                    </Link>
 
-              <OutlineButton onClick={toggleModal}>Watch trailer</OutlineButton>
-              <Modal
-                modal={modal}
-                toggleModal={toggleModal}
-                trailerSrc={movie.movieTrailer}
-              />
+                    <OutlineButton onClick={(index) => toggleModal(key)}>
+                      Watch trailer
+                    </OutlineButton>
+                  </div>
+                </div>
+
+                <div className="hero-slide__item__content__poster">
+                  <img src={item.moviePoster} alt="" />
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className="hero-slide__item__content__poster">
-            <img src={movie.moviePoster} alt="" />
-          </div>
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <Modal
+        modal={modal}
+        toggleModal={toggleModal}
+        // trailerSrc={item?.movieTrailer}
+        trailerSrc={movie}
+        index={trailerIndex}
+      />
     </div>
   );
 };

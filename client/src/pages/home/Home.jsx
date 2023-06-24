@@ -10,14 +10,14 @@ import axios from "axios";
 
 const Home = () => {
 
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState([{}]);
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() =>{
     const getRandomMovie = async () =>{
       try {
         const res = await axios.get('https://easymovie-api.herokuapp.com/api/movie/random');
-        setMovie(res.data[0])
+        setMovie(res.data)
         setIsLoading(false)
       } catch (error) {
         console.log(error);
