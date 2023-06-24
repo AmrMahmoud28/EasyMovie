@@ -194,7 +194,7 @@ const Detail = () => {
               >
                 <Button>
                   {movie.movieGenre?.split("-")[0] === "Series"
-                    ? `${episodes?.length === 0? `Episode --` : `Episode ${episodes?.length}`}`
+                    ? `${episodes?.length === 0? `Loading...` : `Episode ${episodes?.length}`}`
                     : `Watch now`}
                 </Button>
               </Link>
@@ -228,6 +228,7 @@ const Detail = () => {
               </div>
               <div className="eps-seasons">
                 <div className="episodes">
+                  {episodes?.length === 0? <h2>Loading...</h2> : 
                   <div className="btns">
                     {episodes?.map((item, key) => {
                       return (
@@ -247,7 +248,7 @@ const Detail = () => {
                         </Link>
                       );
                     })}
-                  </div>
+                  </div>}
                 </div>
 
                 <div className="seasons">
