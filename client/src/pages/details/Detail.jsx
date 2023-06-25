@@ -205,7 +205,7 @@ const Detail = () => {
               >
                 <Button>
                   {movie.movieGenre?.split("-")[0] === "Series"
-                    ? `${episodes?.length === 0? `Loading...` : `Episode ${episodes?.length}`}`
+                    ? `${episodes?.length === 0? `Loading...` : `S${seasonActive + 1}, Episode ${episodes?.length}`}`
                     : `Watch now`}
                 </Button>
               </Link>
@@ -254,7 +254,8 @@ const Detail = () => {
                           }}
                         >
                           <OutlineButton 
-                          className={`btn ${lastEpisode && (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] === (episodes?.length - key)) && 'active'}`} 
+                          className={`btn ${(!lastEpisode || lastEpisode['season'] !== (seasonActive + 1))? '' : (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] >= (episodes?.length - key)) && 'active'}`} 
+                          // className={`btn ${lastEpisode && (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] === (episodes?.length - key)) && 'active'}`} 
                           onClick={() => handleEpisode(episodes?.length - key)}
                           >
                             {`Episode ${episodes.length - key}`}
