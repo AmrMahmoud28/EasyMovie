@@ -20,10 +20,11 @@ const Detail = () => {
 
   const [seasons, setSeasons] = useState([]);
   const [episodes, setEpisodes] = useState([]);
-  const [lastEpisode, setLastEpisode] = useState({})
+  const [lastEpisode, setLastEpisode] = useState({});
 
   useEffect(() => {
-    setLastEpisode(JSON.parse(localStorage.getItem(movieId)));
+    const data = JSON.parse(localStorage.getItem(movieId));
+    setLastEpisode(data);
 
     const getUsersMovie = async () => {
       try {
@@ -61,16 +62,23 @@ const Detail = () => {
 
             setSeasons(season);
 
-            setEpisodes(
-              text
-                ?.split(
-                  !season
-                    ? '<div class="Episodes--Seasons--Episodes Full--Width"><a class="hoverable activable" href="'
-                    : '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
-                )[1]
-                ?.split("</a></div>")[0]
-                ?.split('</a><a class="hoverable activable" href="')
-            );
+            if (data && data["season"] > 1) {
+              handleSeason(
+                data["season"] - 1,
+                season[data["season"] - 1].split('">')[0]
+              );
+            } else {
+              setEpisodes(
+                text
+                  ?.split(
+                    !season
+                      ? '<div class="Episodes--Seasons--Episodes Full--Width"><a class="hoverable activable" href="'
+                      : '<div class="Episodes--Seasons--Episodes"><a class="hoverable activable" href="'
+                  )[1]
+                  ?.split("</a></div>")[0]
+                  ?.split('</a><a class="hoverable activable" href="')
+              );
+            }
           });
       }
       setIsLoading(false);
@@ -108,13 +116,16 @@ const Detail = () => {
     }
   };
 
-  const handleEpisode = (episodeNumber) =>{
-    localStorage.setItem(movie?._id, JSON.stringify({
-      userId: userId,
-      episode: episodeNumber,
-      season: seasonActive + 1
-    }));
-  }
+  const handleEpisode = (episodeNumber) => {
+    localStorage.setItem(
+      movie?._id,
+      JSON.stringify({
+        userId: userId,
+        episode: episodeNumber,
+        season: seasonActive + 1,
+      })
+    );
+  };
 
   const addList = async () => {
     try {
@@ -198,16 +209,38 @@ const Detail = () => {
                     .replaceAll(" ", "-")}`,
                   moviePageUrl:
                     movie.movieGenre?.split("-")[0] === "Series"
-                      ? episodes[0]?.split('">')[0]
+                      ? lastEpisode?
+                        (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
+                          ? episodes[0]?.split('">')[0]
+                          : lastEpisode["season"] === seasonActive + 1
+                          ? episodes[episodes.length - lastEpisode["episode"] - 1]?.split('">')[0]
+                          : episodes[episodes.length - 1]?.split('">')[0]) : episodes[episodes.length - 1]?.split('">')[0]
                       : movie.movieVideo,
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button onClick={() => {
-                  movie.movieGenre?.split("-")[0] === "Series" && handleEpisode(episodes?.length);
-                }}>
+                <Button
+                  onClick={() => {
+                    movie.movieGenre?.split("-")[0] === "Series" &&
+                      handleEpisode(lastEpisode?
+                        (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
+                          ? episodes.length
+                          : lastEpisode["season"] === seasonActive + 1
+                          ? lastEpisode["episode"] + 1
+                          : 1) : 1);
+                  }}
+                >
                   {movie.movieGenre?.split("-")[0] === "Series"
-                    ? `${episodes?.length === 0? `Loading...` : `S${seasonActive + 1}, Episode ${episodes?.length}`}`
+                    ? `${
+                        episodes?.length === 0
+                          ? `Loading...`
+                          : `S${seasonActive + 1}, Episode ${lastEpisode?
+                            (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
+                              ? episodes.length
+                              : lastEpisode["season"] === seasonActive + 1
+                              ? lastEpisode["episode"] + 1
+                              : 1) : 1}`
+                      }`
                     : `Watch now`}
                 </Button>
               </Link>
@@ -241,31 +274,45 @@ const Detail = () => {
               </div>
               <div className="eps-seasons">
                 <div className="episodes">
-                  {episodes?.length === 0? <h2>Loading...</h2> : 
-                  <div className="btns">
-                    {episodes?.map((item, key) => {
-                      return (
-                        <Link
-                          key={key}
-                          to={{
-                            pathname: `/watch/${("" + movie.movieName)
-                              .toLowerCase()
-                              .replaceAll(" ", "-")}`,
-                            moviePageUrl: item.split('">')[0],
-                            movieBg: movie.movieBg,
-                          }}
-                        >
-                          <OutlineButton 
-                          className={`btn ${(!lastEpisode || lastEpisode['season'] !== (seasonActive + 1))? '' : (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] >= (episodes?.length - key)) && 'active'}`} 
-                          // className={`btn ${lastEpisode && (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] === (episodes?.length - key)) && 'active'}`} 
-                          onClick={() => handleEpisode(episodes?.length - key)}
+                  {episodes?.length === 0 ? (
+                    <h2>Loading...</h2>
+                  ) : (
+                    <div className="btns">
+                      {episodes?.map((item, key) => {
+                        return (
+                          <Link
+                            key={key}
+                            to={{
+                              pathname: `/watch/${("" + movie.movieName)
+                                .toLowerCase()
+                                .replaceAll(" ", "-")}`,
+                              moviePageUrl: item.split('">')[0],
+                              movieBg: movie.movieBg,
+                            }}
                           >
-                            {`Episode ${episodes.length - key}`}
-                          </OutlineButton>
-                        </Link>
-                      );
-                    })}
-                  </div>}
+                            <OutlineButton
+                              className={`btn ${
+                                !lastEpisode ||
+                                lastEpisode["season"] !== seasonActive + 1
+                                  ? ""
+                                  : (lastEpisode["userId"] === userId) &
+                                      (lastEpisode["season"] ===
+                                        seasonActive + 1) &
+                                      (lastEpisode["episode"] >=
+                                        episodes?.length - key) && "active"
+                              }`}
+                              // className={`btn ${lastEpisode && (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] === (episodes?.length - key)) && 'active'}`}
+                              onClick={() =>
+                                handleEpisode(episodes?.length - key)
+                              }
+                            >
+                              {`Episode ${episodes.length - key}`}
+                            </OutlineButton>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 <div className="seasons">
