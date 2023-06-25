@@ -203,7 +203,9 @@ const Detail = () => {
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button>
+                <Button onClick={() => {
+                  movie.movieGenre?.split("-")[0] === "Series" && handleEpisode(episodes?.length);
+                }}>
                   {movie.movieGenre?.split("-")[0] === "Series"
                     ? `${episodes?.length === 0? `Loading...` : `S${seasonActive + 1}, Episode ${episodes?.length}`}`
                     : `Watch now`}
