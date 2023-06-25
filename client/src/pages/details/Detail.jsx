@@ -20,8 +20,11 @@ const Detail = () => {
 
   const [seasons, setSeasons] = useState([]);
   const [episodes, setEpisodes] = useState([]);
+  const [lastEpisode, setLastEpisode] = useState({})
 
   useEffect(() => {
+    setLastEpisode(JSON.parse(localStorage.getItem(movieId)));
+
     const getUsersMovie = async () => {
       try {
         const res = await axios.get(
@@ -84,7 +87,7 @@ const Detail = () => {
     setModal(!modal);
   };
 
-  const handelSeason = (index, link) => {
+  const handleSeason = (index, link) => {
     setSeasonActive(index);
 
     try {
@@ -104,6 +107,14 @@ const Detail = () => {
       console.log(error);
     }
   };
+
+  const handleEpisode = (episodeNumber) =>{
+    localStorage.setItem(movie?._id, JSON.stringify({
+      userId: userId,
+      episode: episodeNumber,
+      season: seasonActive + 1
+    }));
+  }
 
   const addList = async () => {
     try {
@@ -242,7 +253,10 @@ const Detail = () => {
                             movieBg: movie.movieBg,
                           }}
                         >
-                          <OutlineButton className="btn">
+                          <OutlineButton 
+                          className={`btn ${lastEpisode && (lastEpisode['userId'] === userId & lastEpisode['season'] === (seasonActive + 1) & lastEpisode['episode'] === (episodes?.length - key)) && 'active'}`} 
+                          onClick={() => handleEpisode(episodes?.length - key)}
+                          >
                             {`Episode ${episodes.length - key}`}
                           </OutlineButton>
                         </Link>
@@ -258,7 +272,7 @@ const Detail = () => {
                         <OutlineButton
                           key={key}
                           className={seasonActive === key ? "active" : null}
-                          onClick={() => handelSeason(key, item.split('">')[0])}
+                          onClick={() => handleSeason(key, item.split('">')[0])}
                         >
                           {`Season ${key + 1}`}
                         </OutlineButton>

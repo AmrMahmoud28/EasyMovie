@@ -145,6 +145,13 @@
                 width: 12rem;
             }
         }
+
+        .active{
+            box-shadow: unset;
+            color: $mainColor;
+            background-color: $white;
+            transition: all .4s ease
+        }
     }
 
     .seasons{
