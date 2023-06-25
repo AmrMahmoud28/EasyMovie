@@ -62,7 +62,7 @@ const Detail = () => {
 
             setSeasons(season);
 
-            if (data && data["season"] > 1) {
+            if (data && data["season"] > 1 & data["userId"] === userId) {
               handleSeason(
                 data["season"] - 1,
                 season[data["season"] - 1].split('">')[0]
@@ -209,7 +209,7 @@ const Detail = () => {
                     .replaceAll(" ", "-")}`,
                   moviePageUrl:
                     movie.movieGenre?.split("-")[0] === "Series"
-                      ? lastEpisode?
+                      ? lastEpisode && lastEpisode["userId"] === userId?
                         (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
                           ? episodes[0]?.split('">')[0]
                           : lastEpisode["season"] === seasonActive + 1
@@ -222,7 +222,7 @@ const Detail = () => {
                 <Button
                   onClick={() => {
                     movie.movieGenre?.split("-")[0] === "Series" &&
-                      handleEpisode(lastEpisode?
+                      handleEpisode(lastEpisode && lastEpisode["userId"] === userId?
                         (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
                           ? episodes.length
                           : lastEpisode["season"] === seasonActive + 1
@@ -234,7 +234,7 @@ const Detail = () => {
                     ? `${
                         episodes?.length === 0
                           ? `Loading...`
-                          : `S${seasonActive + 1}, Episode ${lastEpisode?
+                          : `S${seasonActive + 1}, Episode ${lastEpisode && lastEpisode["userId"] === userId?
                             (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
                               ? episodes.length
                               : lastEpisode["season"] === seasonActive + 1
