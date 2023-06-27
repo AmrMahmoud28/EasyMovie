@@ -125,6 +125,18 @@
             margin-top: 2rem;
             margin-left: 1rem;
         }
+
+        .episode-btn{
+            width: 33.4%;
+
+            @include tablet{
+                width: 45%;
+            }
+
+            @include mobile{
+                width: 40%;
+            }
+        }
     }
 }
 

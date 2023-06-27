@@ -62,7 +62,7 @@ const Detail = () => {
 
             setSeasons(season);
 
-            if (data && data["season"] > 1 & data["userId"] === userId) {
+            if (data && (data["season"] > 1) & (data["userId"] === userId)) {
               handleSeason(
                 data["season"] - 1,
                 season[data["season"] - 1].split('">')[0]
@@ -204,42 +204,70 @@ const Detail = () => {
             <div className="btns">
               <Link
                 to={{
-                  pathname: `/watch/${("" + movie.movieName)
+                  pathname: `/watch/${(movie.movieGenre?.split("-")[0] ===
+                  "Series"
+                    ? "" +
+                      movie.movieName +
+                      "-season-" +
+                      (seasonActive + 1) +
+                      "-episode-" +
+                      (lastEpisode && lastEpisode["season"] === seasonActive + 1
+                        ? lastEpisode["episode"] === episodes.length
+                          ? lastEpisode["episode"]
+                          : lastEpisode["episode"] + 1
+                        : 1)
+                    : "" + movie.movieName
+                  )
                     .toLowerCase()
                     .replaceAll(" ", "-")}`,
                   moviePageUrl:
                     movie.movieGenre?.split("-")[0] === "Series"
-                      ? lastEpisode && lastEpisode["userId"] === userId?
-                        (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
+                      ? lastEpisode && lastEpisode["userId"] === userId
+                        ? (episodes.length - lastEpisode["episode"] - 1 < 0) &
+                          (lastEpisode["season"] === seasonActive + 1)
                           ? episodes[0]?.split('">')[0]
                           : lastEpisode["season"] === seasonActive + 1
-                          ? episodes[episodes.length - lastEpisode["episode"] - 1]?.split('">')[0]
-                          : episodes[episodes.length - 1]?.split('">')[0]) : episodes[episodes.length - 1]?.split('">')[0]
+                          ? episodes[
+                              episodes.length - lastEpisode["episode"] - 1
+                            ]?.split('">')[0]
+                          : episodes[episodes.length - 1]?.split('">')[0]
+                        : episodes[episodes.length - 1]?.split('">')[0]
                       : movie.movieVideo,
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button
+                <Button className={`${movie.movieGenre?.split("-")[0] === "Series" && 'episode-btn'}`}
                   onClick={() => {
                     movie.movieGenre?.split("-")[0] === "Series" &&
-                      handleEpisode(lastEpisode && lastEpisode["userId"] === userId?
-                        (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
-                          ? episodes.length
-                          : lastEpisode["season"] === seasonActive + 1
-                          ? lastEpisode["episode"] + 1
-                          : 1) : 1);
+                      handleEpisode(
+                        lastEpisode && lastEpisode["userId"] === userId
+                          ? (episodes.length - lastEpisode["episode"] - 1 < 0) &
+                            (lastEpisode["season"] === seasonActive + 1)
+                            ? episodes.length
+                            : lastEpisode["season"] === seasonActive + 1
+                            ? lastEpisode["episode"] + 1
+                            : 1
+                          : 1
+                      );
                   }}
                 >
                   {movie.movieGenre?.split("-")[0] === "Series"
                     ? `${
                         episodes?.length === 0
                           ? `Loading...`
-                          : `S${seasonActive + 1}, Episode ${lastEpisode && lastEpisode["userId"] === userId?
-                            (episodes.length - lastEpisode["episode"] - 1 < 0 & lastEpisode["season"] === seasonActive + 1
-                              ? episodes.length
-                              : lastEpisode["season"] === seasonActive + 1
-                              ? lastEpisode["episode"] + 1
-                              : 1) : 1}`
+                          : `S${seasonActive + 1}, Episode ${
+                              lastEpisode && lastEpisode["userId"] === userId
+                                ? (episodes.length -
+                                    lastEpisode["episode"] -
+                                    1 <
+                                    0) &
+                                  (lastEpisode["season"] === seasonActive + 1)
+                                  ? episodes.length
+                                  : lastEpisode["season"] === seasonActive + 1
+                                  ? lastEpisode["episode"] + 1
+                                  : 1
+                                : 1
+                            }`
                       }`
                     : `Watch now`}
                 </Button>
@@ -283,7 +311,14 @@ const Detail = () => {
                           <Link
                             key={key}
                             to={{
-                              pathname: `/watch/${("" + movie.movieName)
+                              pathname: `/watch/${(
+                                "" +
+                                movie.movieName +
+                                "-season-" +
+                                (seasonActive + 1) +
+                                "-episode-" +
+                                (episodes?.length - key)
+                              )
                                 .toLowerCase()
                                 .replaceAll(" ", "-")}`,
                               moviePageUrl: item.split('">')[0],
