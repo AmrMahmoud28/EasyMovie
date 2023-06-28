@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import MovieGrid from '../../components/movie-grid/MovieGrid';
 import PageHeader from '../../components/page-header/PageHeader'
@@ -6,6 +6,10 @@ import PageHeader from '../../components/page-header/PageHeader'
 const Catalog = () => {
 
   const {category} = useParams();
+
+  useEffect(() =>{
+    document.title = `EasyMovie | ${getCategory(category)}`
+  })
 
   return (
     <>

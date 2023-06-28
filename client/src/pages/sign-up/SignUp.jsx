@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./sign-up.scss";
 
 import bg from "../../assets/footer-bg.jpg"
@@ -13,6 +13,10 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+
+  useEffect(() =>{
+    document.title = 'EasyMovie | Register'
+  });
 
   const handleSignUp = async (e) =>{
     e.preventDefault();

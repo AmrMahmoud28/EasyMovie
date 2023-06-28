@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./watch.scss";
 
 import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const Watch = () => {
   const [movieUrl, setMovieUrl] = useState();
+  const { movieName: movieNameUrl } = useParams();
   const location = useLocation();
   const moviePageUrl = location?.moviePageUrl;
   const movieBg = location?.movieBg;
@@ -36,8 +38,14 @@ const Watch = () => {
   // }, [])
 
   useEffect(() => {
+    let movieName = movieNameUrl.replaceAll("-", ' ').replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+    movieName = movieName.replace(new RegExp('Season', 'gi'), '- Season')
+    movieName = movieName.replace(new RegExp('Episode', 'gi'), '- Episode')
+      
+    document.title = `EasyMovie | ${movieName}`;
+
     fetch("https://easymovie-cors.herokuapp.com/" + moviePageUrl)
-    // fetch(moviePageUrl)
+      // fetch(moviePageUrl)
       .then((response) => response.text())
       .then((text) => {
         const url = [];
@@ -58,7 +66,7 @@ const Watch = () => {
       <div className="back">
         <Link to="/">Home</Link>
 
-      <div className="resolutions">
+        <div className="resolutions">
           <div className={`resolution1 ${resolution === 0 ? "active" : null}`}>
             <p onClick={() => setResolution(0)}>1080p</p>
           </div>
@@ -68,7 +76,7 @@ const Watch = () => {
           <div className={`resolution3 ${resolution === 2 ? "active" : null}`}>
             <p onClick={() => setResolution(2)}>480p</p>
           </div>
-      </div>
+        </div>
       </div>
 
       <video

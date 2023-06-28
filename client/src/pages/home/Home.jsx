@@ -14,6 +14,8 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() =>{
+    document.title = 'EasyMovie';
+    
     const getRandomMovie = async () =>{
       try {
         const res = await axios.get('https://easymovie-api.herokuapp.com/api/movie/random');

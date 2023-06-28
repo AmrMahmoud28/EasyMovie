@@ -51,6 +51,8 @@ const Detail = () => {
     };
 
     const getSeries = (movie) => {
+      document.title = `EasyMovie ${movie? `| ${movie.movieName}` : ''}`
+
       if (movie?.movieGenre?.split("-")[0] === "Series") {
         fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
           .then((response) => response.text())

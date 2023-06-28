@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import bg from "../../assets/footer-bg.jpg"
 import logo from "../../assets/main-logo.svg"
@@ -14,6 +14,10 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const {dispatch} = useContext(AuthContext);
+
+  useEffect(() =>{
+    document.title = 'EasyMovie | Login'
+  });
 
   const handleLogin = async (e) =>{
     e.preventDefault();

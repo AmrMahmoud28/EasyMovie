@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MovieGrid from "../../components/movie-grid/MovieGrid";
 import PageHeader from "../../components/page-header/PageHeader";
@@ -7,6 +7,10 @@ import { OutlineButton } from "../../components/button/Button";
 import MovieList from "../../components/movie-list/MovieList";
 
 const SeriesCatalog = () => {
+  useEffect(() =>{
+    document.title = 'EasyMovie | Series'
+  });
+
   return (
     <>
       <PageHeader>Series</PageHeader>
