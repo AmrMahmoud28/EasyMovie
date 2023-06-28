@@ -7,6 +7,7 @@ import Modal from "../../components/modal/Modal";
 import MovieList from "../../components/movie-list/MovieList";
 import DetailSkeleton from "./DetailSkeleton";
 import axios from "axios";
+import logo from "../../assets/mini-logo.svg";
 
 const Detail = () => {
   const [added, setAdded] = useState(false);
@@ -51,7 +52,7 @@ const Detail = () => {
     };
 
     const getSeries = (movie) => {
-      document.title = `EasyMovie ${movie? `| ${movie.movieName}` : ''}`
+      document.title = `EasyMovie ${movie ? `| ${movie.movieName}` : ""}`;
 
       if (movie?.movieGenre?.split("-")[0] === "Series") {
         fetch("https://easymovie-cors.herokuapp.com/" + movie.movieVideo)
@@ -183,6 +184,14 @@ const Detail = () => {
           </div>
 
           <div className="movie-content__info">
+            <div className="logo">
+              <img src={logo} alt="" className="logoImg" />
+              <h3>{`${
+                movie?.movieGenre?.split("-")[0] === "Series"
+                  ? "SERIES"
+                  : "MOVIE"
+              }`}</h3>
+            </div>
             <h1 className="title">{movie.movieName}</h1>
 
             <div className="genres">
@@ -238,7 +247,11 @@ const Detail = () => {
                   movieBg: movie.movieBg,
                 }}
               >
-                <Button className={`${movie.movieGenre?.split("-")[0] === "Series" && 'episode-btn'}`}
+                <Button
+                  className={`${
+                    movie.movieGenre?.split("-")[0] === "Series" &&
+                    "episode-btn"
+                  }`}
                   onClick={() => {
                     movie.movieGenre?.split("-")[0] === "Series" &&
                       handleEpisode(

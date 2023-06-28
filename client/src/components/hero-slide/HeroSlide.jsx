@@ -5,6 +5,7 @@ import "./hero-slide.scss";
 import Button, { OutlineButton } from "../button/Button";
 import Modal from "../modal/Modal";
 import { Link } from "react-router-dom";
+import logo from "../../assets/mini-logo.svg"
 
 const HeroSlide = ({ movie }) => {
   SwiperCore.use([Autoplay]);
@@ -48,6 +49,11 @@ const HeroSlide = ({ movie }) => {
               >
                 <div className="hero-slide__item__content container">
                   <div className="hero-slide__item__content__info">
+                    <div className="logo">
+                      <img src={logo} alt="" className="logoImg"/>
+                      <h3>{`${item?.movieGenre?.split("-")[0] === "Series"? 'SERIES' : 'MOVIE'}`}</h3>
+                    </div>
+                    
                     <Link to={`/detail/${item?._id}`}>
                       <h2 className="title">{item.movieName}</h2>
                     </Link>

@@ -59,7 +59,7 @@ const Watch = () => {
         }
         setMovieUrl(url);
       });
-  }, [moviePageUrl]);
+  }, [moviePageUrl, movieNameUrl]);
 
   return (
     <div className="watch">

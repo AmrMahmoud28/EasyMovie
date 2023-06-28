@@ -57,6 +57,15 @@
                 margin-top: 3em;
             }
 
+            .logo{
+                width: 2.9rem;
+                margin-bottom: 0.8rem;
+                
+                h3{
+                    letter-spacing: .2rem;
+                }
+            }
+
             .title{
                 // font-size: 5rem;
                 font-size: 3.3rem;
@@ -81,7 +90,7 @@
                 margin-left: 1rem;
             }
 
-            .btns, .title, .overview{
+            .btns, .title, .overview, .logo{
                 opacity: 0;
                 transform: translateY(-100px);
                 transition: transform .5s ease, opacity .5s ease;
@@ -119,9 +128,13 @@
     }
 
     &.active > &__content > &__content__info{
-        .btns, .title, .overview{
+        .btns, .title, .overview, .logo{
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .logo{
+            transition-delay: .6s, .6s;
         }
 
         .title{
