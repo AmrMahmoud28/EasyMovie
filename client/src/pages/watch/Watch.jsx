@@ -42,7 +42,7 @@ const Watch = () => {
     movieName = movieName.replace(new RegExp('Season', 'gi'), '- Season')
     movieName = movieName.replace(new RegExp('Episode', 'gi'), '- Episode')
       
-    document.title = `EasyMovie | ${movieName}`;
+    document.title = `EasyMovie | ${movieName} (Watch)`;
 
     fetch("https://easymovie-cors.herokuapp.com/" + moviePageUrl)
       // fetch(moviePageUrl)
