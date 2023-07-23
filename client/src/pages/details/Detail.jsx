@@ -65,7 +65,7 @@ const Detail = () => {
 
             setSeasons(season);
 
-            if (data && (data["season"] > 1) & (data["userId"] === userId)) {
+            if (data & season && (data["season"] > 1) & (data["userId"] === userId)) {
               handleSeason(
                 data["season"] - 1,
                 season[data["season"] - 1].split('">')[0]
@@ -214,7 +214,7 @@ const Detail = () => {
 
             <div className="btns">
               <Link
-                to={{
+                to={ episodes? {
                   pathname: `/watch/${(movie.movieGenre?.split("-")[0] ===
                   "Series"
                     ? "" +
@@ -223,7 +223,7 @@ const Detail = () => {
                       (seasonActive + 1) +
                       "-episode-" +
                       (lastEpisode && lastEpisode["season"] === seasonActive + 1
-                        ? lastEpisode["episode"] === episodes.length
+                        ? lastEpisode["episode"] === episodes?.length
                           ? lastEpisode["episode"]
                           : lastEpisode["episode"] + 1
                         : 1)
@@ -233,19 +233,21 @@ const Detail = () => {
                     .replaceAll(" ", "-")}`,
                   moviePageUrl:
                     movie.movieGenre?.split("-")[0] === "Series"
-                      ? lastEpisode && lastEpisode["userId"] === userId
-                        ? (episodes.length - lastEpisode["episode"] - 1 < 0) &
-                          (lastEpisode["season"] === seasonActive + 1)
-                          ? episodes[0]?.split('">')[0]
-                          : lastEpisode["season"] === seasonActive + 1
-                          ? episodes[
-                              episodes.length - lastEpisode["episode"] - 1
-                            ]?.split('">')[0]
-                          : episodes[episodes.length - 1]?.split('">')[0]
-                        : episodes[episodes.length - 1]?.split('">')[0]
+                      ? episodes &&
+                        (lastEpisode && lastEpisode["userId"] === userId
+                          ? (episodes?.length - lastEpisode["episode"] - 1 <
+                              0) &
+                            (lastEpisode["season"] === seasonActive + 1)
+                            ? episodes[0]?.split('">')[0]
+                            : lastEpisode["season"] === seasonActive + 1
+                            ? episodes[
+                                episodes?.length - lastEpisode["episode"] - 1
+                              ]?.split('">')[0]
+                            : episodes[episodes?.length - 1]?.split('">')[0]
+                          : episodes[episodes?.length - 1]?.split('">')[0])
                       : movie.movieVideo,
                   movieBg: movie.movieBg,
-                }}
+                } : {pathname: ''}}
               >
                 <Button
                   className={`${
@@ -253,12 +255,13 @@ const Detail = () => {
                     "episode-btn"
                   }`}
                   onClick={() => {
-                    movie.movieGenre?.split("-")[0] === "Series" &&
+                    movie.movieGenre?.split("-")[0] === "Series" & episodes &&
                       handleEpisode(
                         lastEpisode && lastEpisode["userId"] === userId
-                          ? (episodes.length - lastEpisode["episode"] - 1 < 0) &
+                          ? (episodes?.length - lastEpisode["episode"] - 1 <
+                              0) &
                             (lastEpisode["season"] === seasonActive + 1)
-                            ? episodes.length
+                            ? episodes?.length
                             : lastEpisode["season"] === seasonActive + 1
                             ? lastEpisode["episode"] + 1
                             : 1
@@ -270,19 +273,21 @@ const Detail = () => {
                     ? `${
                         episodes?.length === 0
                           ? `Loading...`
-                          : `S${seasonActive + 1}, Episode ${
+                          : episodes
+                          ? `S${seasonActive + 1}, Episode ${
                               lastEpisode && lastEpisode["userId"] === userId
-                                ? (episodes.length -
+                                ? (episodes?.length -
                                     lastEpisode["episode"] -
                                     1 <
                                     0) &
                                   (lastEpisode["season"] === seasonActive + 1)
-                                  ? episodes.length
+                                  ? episodes?.length
                                   : lastEpisode["season"] === seasonActive + 1
                                   ? lastEpisode["episode"] + 1
                                   : 1
                                 : 1
                             }`
+                          : "Unavailable"
                       }`
                     : `Watch now`}
                 </Button>
@@ -319,7 +324,7 @@ const Detail = () => {
                 <div className="episodes">
                   {episodes?.length === 0 ? (
                     <h2>Loading...</h2>
-                  ) : (
+                  ) : episodes ? (
                     <div className="btns">
                       {episodes?.map((item, key) => {
                         return (
@@ -356,12 +361,16 @@ const Detail = () => {
                                 handleEpisode(episodes?.length - key)
                               }
                             >
-                              {`Episode ${episodes.length - key}`}
+                              {`Episode ${episodes?.length - key}`}
                             </OutlineButton>
                           </Link>
                         );
                       })}
                     </div>
+                  ) : (
+                    <h2>
+                      Episodes are not available right now, Try again later!!!
+                    </h2>
                   )}
                 </div>
 
