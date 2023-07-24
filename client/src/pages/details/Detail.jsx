@@ -66,7 +66,7 @@ const Detail = () => {
             setSeasons(season);
 
             if (
-              data & season &&
+              data &&
               (data["season"] > 1) & (data["userId"] === userId)
             ) {
               handleSeason(
@@ -260,8 +260,7 @@ const Detail = () => {
                       "episode-btn"
                     }`}
                     onClick={() => {
-                      (movie.movieGenre?.split("-")[0] === "Series") &
-                        episodes &&
+                      (movie.movieGenre?.split("-")[0] === "Series") &&
                         handleEpisode(
                           lastEpisode && lastEpisode["userId"] === userId
                             ? (episodes?.length - lastEpisode["episode"] - 1 <
@@ -305,7 +304,7 @@ const Detail = () => {
                     "episode-btn"
                   }`}
                   onClick={() => {
-                    (movie.movieGenre?.split("-")[0] === "Series") & episodes &&
+                    (movie.movieGenre?.split("-")[0] === "Series") &&
                       handleEpisode(
                         lastEpisode && lastEpisode["userId"] === userId
                           ? (episodes?.length - lastEpisode["episode"] - 1 <
